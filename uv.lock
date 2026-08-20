@@ -1024,6 +1024,12 @@ wheels = [
 ]
 
 [[package]]
+name = "dict"
+version = "1.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/84/42ca38d797fd23baf31791ceb00a4a75bca9f144702e8456449de73cc1c3/dict-1.0.1.tar.gz", hash = "sha256:8688390e0ce764b8aa6f23e5882d232701db26ba30c6435c238c732b921c8285", size = 2179, upload-time = "2018-04-08T21:02:19.858Z" }
+
+[[package]]
 name = "distro"
 version = "1.9.0"
 source = { registry = "https://pypi.org/simple" }
