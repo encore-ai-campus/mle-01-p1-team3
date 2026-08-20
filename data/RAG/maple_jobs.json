@@ -385,17 +385,6 @@
     "url": "https://maplestory.nexon.com/Guide/N23Job/View/33"
   },
   {
-    "job_id": "34",
-    "category": "도적",
-    "name": "제논",
-    "subtitle": "하이브리드 전투병기",
-    "description": "사악한 과학자 겔리메르에 의해 기억을 잃은 전투병기입니다. 기억을 되찾기 위해 레지스탕스에 합류했습니다. 도적, 해적의 장비와 일부 스킬을 사용하거나, 멀티 모드 링커로 스킬을 변형할 수 있습니다.",
-    "max_level": "Lv.300",
-    "main_stat": "STR (힘), DEX (민첩), LUK (행운)",
-    "weapon": "에너지 소드 (전용무기)",
-    "url": "https://maplestory.nexon.com/Guide/N23Job/View/34"
-  },
-  {
     "job_id": "35",
     "category": "도적",
     "name": "팬텀",
@@ -496,7 +485,7 @@
   },
   {
     "job_id": "44",
-    "category": "해적",
+    "category": ["도적", "해적"],
     "name": "제논",
     "subtitle": "하이브리드 전투병기",
     "description": "사악한 과학자 겔리메르에 의해 기억을 잃은 전투병기입니다. 기억을 되찾기 위해 레지스탕스에 합류했습니다. 도적, 해적의 장비와 일부 스킬을 사용하거나, 멀티 모드 링커로 스킬을 변형할 수 있습니다.",
