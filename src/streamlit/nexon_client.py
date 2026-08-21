@@ -384,6 +384,18 @@ class NexonClient:
             {"ocid": ocid},
         )
 
+    def get_popularity(self, ocid: str) -> dict[str, Any]:
+        return self._get("/character/popularity", {"ocid": ocid})
+
+    def get_hyper_stat(self, ocid: str) -> dict[str, Any]:
+        return self._get("/character/hyper-stat", {"ocid": ocid})
+
+    def get_propensity(self, ocid: str) -> dict[str, Any]:
+        return self._get("/character/propensity", {"ocid": ocid})
+
+    def get_ability(self, ocid: str) -> dict[str, Any]:
+        return self._get("/character/ability", {"ocid": ocid})
+
     # ========================================================
     # 9. 현재 장착 장비
     # ========================================================
@@ -425,3 +437,16 @@ class NexonClient:
             "/user/union",
             {"ocid": ocid},
         )
+
+    def get_guild_id(self, guild_name: str, world_name: str) -> str:
+        data = self._get(
+            "/guild/id",
+            {"guild_name": guild_name.strip(), "world_name": world_name.strip()},
+        )
+        oguild_id = data.get("oguild_id")
+        if not oguild_id:
+            raise NexonApiError("길드 식별자를 찾지 못했습니다.")
+        return oguild_id
+
+    def get_guild_basic(self, oguild_id: str) -> dict[str, Any]:
+        return self._get("/guild/basic", {"oguild_id": oguild_id})

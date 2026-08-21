@@ -19,7 +19,6 @@ st.set_page_config(page_title="메이플스토리 스타터 유저 가이드라�
 
 with st.sidebar:
     st.session_state.sidebar_slot = st.empty()
-    st.divider
 
 pg = st.navigation(
     {
