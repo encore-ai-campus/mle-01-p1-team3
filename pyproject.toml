@@ -62,4 +62,5 @@ dependencies = [
     "seaborn>=0.13.2",
     "kiwipiepy>=0.23.2",
     "wordcloud>=1.9.6",
+    "document>=1.0",
 ]
