@@ -174,13 +174,20 @@ def load_character(client: NexonClient, character_name: str) -> dict[str, dict[s
 
 def render_dashboard() -> None:
     st.markdown("<div class='dashboard-title'>🍁 메이플스토리 캐릭터 정보</div>", unsafe_allow_html=True)
+    pending_name = st.session_state.pop("pending_character_name", None)
     with st.container(border=True):
         st.markdown("**캐릭터명을 입력하세요**")
         query_col, button_col = st.columns([6, 1])
         with query_col:
-            name = st.text_input("캐릭터명", placeholder="캐릭터명을 입력하세요", label_visibility="collapsed", key="character_query")
+            name = st.text_input(
+                "캐릭터명",
+                value=pending_name or "",
+                placeholder="캐릭터명을 입력하세요",
+                label_visibility="collapsed",
+                key="character_query",
+            )
         with button_col:
-            submitted = st.button("조회", use_container_width=True, type="primary")
+            submitted = st.button("조회", use_container_width=True, type="primary") or bool(pending_name)
     if submitted:
         if not name.strip():
             st.warning("캐릭터명을 입력해주세요.")
