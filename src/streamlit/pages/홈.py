@@ -1,38 +1,44 @@
 from __future__ import annotations
 
 import base64
+import html
 from datetime import date
 from pathlib import Path
 
+import pandas as pd
 import streamlit as st
 
 
 PAGE_DIR = Path(__file__).resolve().parent
 ASSET_DIR = PAGE_DIR.parent / "assets"
+PROJECT_ROOT = PAGE_DIR.parents[2]
+DATA_PATH = PROJECT_ROOT / "data" / "processed" / "inven_question_final.csv"
 
 
 def asset_data_uri(path: Path) -> str:
+    if not path.is_file():
+        return ""
     encoded = base64.b64encode(path.read_bytes()).decode("ascii")
     return f"data:image/png;base64,{encoded}"
 
 
-background_uri = asset_data_uri(ASSET_DIR / "배경.png")
-icon_uri = asset_data_uri(ASSET_DIR / "메이플 아이콘.png")
+icon_uri = asset_data_uri(ASSET_DIR / "메이플_아이콘.png")
+brand_icon = f'<img src="{icon_uri}" alt="메이플 아이콘">' if icon_uri else ""
 
 st.markdown(
     f"""
     <style>
     :root {{ --purple:#7258e9; --purple-dark:#5941d2; --ink:#273043; --line:#e7eaf2; }}
-    [data-testid="stAppViewContainer"] {{ min-height:100vh; background:#f7f8fc; background-image:url('{background_uri}');
-        background-size:100% auto; background-position:center top; background-repeat:no-repeat; }}
-    [data-testid="stHeader"] {{ background:transparent; }}
     .block-container {{ max-width:none; padding:0 !important; }}
     .center-logo {{ width:100%; text-align:center; margin:0 auto; }}
     .center-logo img {{ width:185px; height:185px; object-fit:contain; }}
     .home-hero {{ min-height:92px; padding:66px 7vw 0; text-align:center; color:white; position:relative; }}
     .hero-inner {{ position:relative; z-index:1; max-width:900px; margin:0 auto; }}
     .eyebrow {{ font-size:15px; letter-spacing:.34em; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.16); }}
-    .hero-subtitle {{ margin:5px 0 26px; font-size:20px; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.24); }}
+    .hero-brand {{ display:inline-flex; align-items:center; justify-content:center; gap:14px; margin:16px 0 8px;
+        font-size:46px; font-weight:800; line-height:1; text-shadow:0 3px 12px rgba(0,0,0,.28); }}
+    .hero-brand img {{ width:1.9em; height:1.9em; object-fit:contain; }}
+    .hero-subtitle {{ margin:0 0 26px; font-size:20px; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.24); }}
     .hero-hint {{ color:rgba(39,48,67,.84); font-size:15px; font-weight:600; margin-top:13px; }}
     .home-logo {{ margin:15px auto 0; width:185px; height:145px; object-fit:contain; }}
     div[data-testid="stTextInput"] {{ max-width:760px; margin:0 auto; }}
@@ -40,6 +46,17 @@ st.markdown(
         color:var(--ink); font-size:19px; box-shadow:0 7px 25px rgba(41,57,95,.18); }}
     div[data-testid="stTextInput"] input:focus {{ border-color:transparent; box-shadow:0 0 0 3px rgba(114,88,233,.22),0 7px 25px rgba(41,57,95,.18); }}
     div[data-testid="stTextInput"] input::placeholder {{ color:#9298a5; opacity:1; }}
+    div[data-testid="stForm"] {{ background:rgba(23,30,52,.62); backdrop-filter:blur(7px); border:1px solid rgba(255,255,255,.16);
+        border-radius:18px; padding:20px 22px; margin:0 auto 34px; box-shadow:0 14px 34px rgba(15,20,40,.28); }}
+    div[data-testid="stForm"] div[data-testid="stMarkdownContainer"] p {{ color:#f2f4fa; font-size:15px; font-weight:700; }}
+    div[data-testid="stForm"] div[data-testid="stTextInput"] {{ max-width:none; margin:0; }}
+    div[data-testid="stForm"] div[data-testid="stTextInput"] input {{ height:44px; padding:0 14px; border:1px solid rgba(255,255,255,.12);
+        border-radius:10px; background:rgba(255,255,255,.10); color:#f2f4fa; font-size:15px; font-weight:400; box-shadow:none; }}
+    div[data-testid="stForm"] div[data-testid="stTextInput"] input::placeholder {{ color:rgba(238,240,250,.55); opacity:1; }}
+    div[data-testid="stForm"] button {{ width:100%; height:44px; min-height:44px; padding:0; border:0;
+        border-radius:10px; background:#FA7000; color:#fff; box-shadow:0 4px 12px rgba(250,112,0,.30); }}
+    div[data-testid="stForm"] button:hover {{ background:#e06400; border-color:transparent; color:#fff; }}
+    div[data-testid="stForm"] button p {{ color:#fff; font-size:15px; font-weight:700; }}
     .search-button {{ margin-left:-82px; position:relative; z-index:2; }}
     .search-button button {{ width:54px; height:54px; margin-top:5px; border:0; border-radius:50%; background:var(--purple); color:white;
         font-size:24px; box-shadow:0 6px 15px rgba(89,65,210,.35); }}
@@ -61,76 +78,118 @@ st.markdown(
     .notice-title {{ min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }}
     .home-footer {{ text-align:center; color:#a4aab7; font-size:13px; padding:0 0 25px; }}
     @media (max-width:800px) {{ [data-testid="stAppViewContainer"] {{ background-size:100% auto; }} .home-hero {{ min-height:92px; padding:45px 20px 0; }} .eyebrow {{ font-size:12px; letter-spacing:.2em; }}
-        .hero-subtitle {{ font-size:17px; }} .cards-wrap {{ max-width:92%; margin-top:28px; }} .home-card {{ margin-bottom:18px; }} .search-button {{ margin-left:-72px; }} }}
+        .hero-subtitle {{ font-size:16px; }} .hero-brand {{ font-size:34px; }} .cards-wrap {{ max-width:92%; margin-top:28px; }} .home-card {{ margin-bottom:18px; }} .search-button {{ margin-left:-72px; }} }}
     </style>
     """,
     unsafe_allow_html=True,
 )
 
 st.markdown(
-    """
+    f"""
     <section class="home-hero"><div class="hero-inner">
       <div class="eyebrow">MAPLESTORY SEARCH &amp; CHAT</div>
+      <div class="hero-brand">{brand_icon}메이플 스토리</div>
       <div class="hero-subtitle">뉴비를 위한 가이드라인 웹사이트</div>
     </div></section>
     """,
     unsafe_allow_html=True,
 )
 
-# st.markdown(
-#     f'<div class="center-logo"><img src="{icon_uri}" alt="메이플 아이콘"></div>',
-#     unsafe_allow_html=True,
-# )
-    # search_col, button_col = st.columns([8, 1], gap="small")
-    # with search_col:
-    #     character_name = st.text_input("캐릭터명", placeholder="캐릭터명을 입력해주세요", label_visibility="collapsed", key="home_character_query")
-    # with button_col:
-    #     st.markdown('<div class="search-button">', unsafe_allow_html=True)
-    #     search_clicked = st.button("⌕", key="home_search", help="캐릭터 검색")
-    # #     st.markdown("</div>", unsafe_allow_html=True)
 
-    # _, action_center, _ = st.columns([1, 2, 1])
-    # with action_center:
-    #     st.markdown('<div class="hero-actions">', unsafe_allow_html=True)
-    #     st.button("📣  공지사항", key="home_notice", type="primary")
-    #     st.button("☆  즐겨찾기", key="home_favorite")
-#     #     st.markdown('<div class="hero-hint">즐겨찾기로 빠르게 이동하세요!</div></div>', unsafe_allow_html=True)
+# ===================
+# 캐릭터 검색 (결과는 '캐릭터 정보검색' 페이지에서 표시)
+# ===================
+_, search_center, _ = st.columns([1, 18, 1])
+with search_center:
+    with st.form("home_character_search", border=True):
+        st.markdown("**캐릭터명을 입력하세요**")
+        query_col, button_col = st.columns([6, 1])
+        with query_col:
+            character_name = st.text_input(
+                "캐릭터명",
+                placeholder="캐릭터명을 입력하세요",
+                label_visibility="collapsed",
+                key="home_character_query",
+            )
+        with button_col:
+            search_clicked = st.form_submit_button("조회", type="primary", width="stretch")
 
-# if search_clicked:
-#     if not character_name.strip():
-#         st.warning("캐릭터명을 입력해주세요.")
-#     else:
-#         st.session_state.pending_character_name = character_name.strip()
-#         st.switch_page("pages/정보검색.py")
+if search_clicked:
+    if not character_name.strip():
+        st.warning("캐릭터명을 입력해주세요.")
+    else:
+        st.session_state.pending_character_name = character_name.strip()
+        st.switch_page("pages/정보검색.py")
 
-# events = [
-#     ("D-2", "프리미엄PC방 접속보상 이벤트 & 기프트샵", True),
-#     ("D-5", "썸머 아메이플", True),
-#     ("D-5", "메이플스토리에 진심! 달성 이벤트", True),
-#     ("D-26", "울티아 유물 탐사", False),
-#     ("D-26", "보스 격파 이벤트 - 광신도의 저격", False),
-# ]
-# notices = [
-#     ("2026.08.21", "[수정] [패션컬럼] 8/21(금) 전체 월드 채널 점검 (14:00~15:00)"),
-#     ("2026.08.20", "[패치완료] 8/20(목) ver.1.2.418 아나이버전(패치) (16:18 적용)"),
-#     ("2026.08.20", "[패치완료] 8/20(목) 전체 월드 채널 패치 (15:00~16:00)"),
-#     ("2026.08.20", "[완료] 8/20(목) 마스터 이벤트 에어 무료 임시 사용 제한 및 거래 제한 안내"),
-#     ("2026.08.20", "[수정] 8/20(목) 넥카드 오류 안내"),
-#     ("2026.08.20", "클라이언트 1.2.418 업데이트 안내"),
-# ]
 
-# st.markdown('<div class="cards-wrap">', unsafe_allow_html=True)
-# card_left, card_right = st.columns(2, gap="large")
-# with card_left:
-#     event_rows = "".join(
-#         f'<div class="list-row"><span class="dday {"dday-near" if near else "dday-far"}">{day}</span><span class="notice-title">{title}</span></div>'
-#         for day, title, near in events
-#     )
-#     st.markdown(f'<div class="home-card"><div class="card-heading">🍄 진행중인 이벤트 <span>전체보기 〉</span></div>{event_rows}</div>', unsafe_allow_html=True)
-# with card_right:
-#     notice_rows = "".join(
-#         f'<div class="list-row"><span class="notice-date">{notice_date}</span><span class="notice-title">{title}</span></div>'
-#         for notice_date, title in notices
-#     )
-#     st.markdown(f'<div class="home-card"><div class="card-heading">📣 공지사항 <span>전체보기 〉</span></div>{notice_rows}</div>', unsafe_allow_html=True)
-# st.markdown('</div>', unsafe_allow_html=True)
+# ===================
+# 인기 질문 랭킹 (추천 수 / 조회 수 TOP 10)
+# ===================
+@st.cache_data
+def load_questions() -> pd.DataFrame:
+    return pd.read_csv(DATA_PATH)
+
+
+def top_questions(df: pd.DataFrame, column: str) -> list[tuple[str, int]]:
+    ranked = (
+        df[["title", column]]
+        .assign(**{column: pd.to_numeric(df[column], errors="coerce")})
+        .dropna(subset=[column])
+        .sort_values(column, ascending=False)
+        .head(10)
+    )
+    return [(str(title), int(value)) for title, value in ranked.itertuples(index=False)]
+
+
+def rank_card(title_ko: str, title_en: str, rows: list[tuple[str, int]], unit: str) -> str:
+    row_html = "".join(
+        f'<div class="rank-row">'
+        f'<span class="rank-no rank-{"gold" if no == 1 else "silver" if no <= 3 else "blue"}">{no}위</span>'
+        f'<span class="rank-title">{html.escape(title)}</span>'
+        f'<span class="rank-value">{value:,}{unit}</span></div>'
+        for no, (title, value) in enumerate(rows, start=1)
+    )
+    return (
+        '<div class="rank-card">'
+        f'<div class="rank-head">{brand_icon}'
+        f'<span class="rank-head-text"><b>{title_ko}</b><em>{title_en}</em></span></div>'
+        f'<div class="rank-body">{row_html}</div></div>'
+    )
+
+
+st.markdown(
+    """
+    <style>
+    .rank-wrap { display:flex; gap:22px; width:90%; max-width:1480px; margin:30px auto 44px; }
+    .rank-card { flex:1; min-width:0; background:rgba(23,30,52,.62); backdrop-filter:blur(7px);
+        border:1px solid rgba(255,255,255,.16); border-radius:18px; padding:16px 18px 18px;
+        box-shadow:0 14px 34px rgba(15,20,40,.28); }
+    .rank-head { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+    .rank-head img { width:46px; height:46px; object-fit:contain; flex:none; }
+    .rank-head-text { flex:1; min-width:0; display:flex; flex-direction:column; line-height:1.25; }
+    .rank-head-text b { color:#ffd45c; font-size:20px; font-weight:800; }
+    .rank-head-text em { color:rgba(255,255,255,.6); font-size:12px; font-style:normal; font-weight:600; }
+    .rank-more { color:rgba(255,255,255,.72); font-size:13px; font-weight:600; flex:none; }
+    .rank-row { display:flex; align-items:center; gap:14px; background:rgba(255,255,255,.10); border-radius:10px;
+        padding:11px 14px; margin-top:8px; color:#f2f4fa; font-size:14px; }
+    .rank-row:first-child { margin-top:0; }
+    .rank-no { flex:none; min-width:54px; padding:5px 0; text-align:center; border-radius:6px;
+        color:white; font-weight:800; font-size:13px; }
+    .rank-gold { background:#e8465f; } .rank-silver { background:#f0a02a; } .rank-blue { background:#4f86dd; }
+    .rank-title { flex:1; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+    .rank-value { flex:none; color:rgba(255,255,255,.66); font-size:13px; font-weight:700; }
+    @media (max-width:900px) { .rank-wrap { flex-direction:column; width:94%; } }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+questions = load_questions()
+
+st.markdown(
+    '<div class="rank-wrap">'
+    + rank_card("추천 많은 질문", "Most Liked Questions", top_questions(questions, "likes"), "개")
+    + rank_card("조회 많은 질문", "Most Viewed Questions", top_questions(questions, "views"), "회")
+    + "</div>",
+    unsafe_allow_html=True,
+)
