@@ -77,6 +77,9 @@ pg = st.navigation(
         "정보검색" : [
             st.Page("pages/정보검색.py", title="캐릭터 정보검색", icon="🎮"),
         ],
+        "챗봇" : [
+            st.Page("pages/챗봇.py", title="메이플스토리 가이드챗봇", icon="💬"),
+        ],
     },
     position="sidebar",
 )
