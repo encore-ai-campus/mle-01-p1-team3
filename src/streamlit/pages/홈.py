@@ -1,5 +1,4 @@
-import os
-os.environ.setdefault("ARROW_DEFAULT_MEMORY_POOL", "system")
+from __future__ import annotations
 
 import base64
 import html

@@ -37,7 +37,9 @@ st.set_page_config(page_title="MapleStory Search & Chat", page_icon="🍄", layo
 st.markdown(font_face_css(str(FONT_PATH)), unsafe_allow_html=True)
 
 with st.sidebar:
-    st.session_state.sidebar_slot = st.empty()
+    st.markdown("# 🍁 메이플스토리 뉴비 가이드라인")
+    st.caption("MapleStory Search & Chat")
+    st.divider()
 
 pg = st.navigation(
     {
@@ -50,7 +52,8 @@ pg = st.navigation(
         "정보검색" : [
             st.Page("pages/정보검색.py", title="캐릭터 정보검색", icon="🎮"),
         ],
-    }
+    },
+    position="sidebar",
 )
 
 pg.run()

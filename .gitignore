@@ -4,6 +4,10 @@ mle-01-p1-team3/data/raw/
 
 # 넥슨 api 키
 .streamlit/secrets.toml
+src/streamlit/.streamlit/secrets.toml
+
+# ChromaDB
+chroma_db/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
