@@ -1,7 +1,12 @@
 from typing import Any
 
+import time
 from getpass import getpass
 import requests
+
+# API 호출량 제한(OPENAPI00007)에 걸리지 않도록 요청 사이 최소 간격을 둔다.
+MIN_REQUEST_INTERVAL = 0.25
+RATE_LIMIT_RETRIES = 3
 
 # 1. 메이플스토리 API 공통 주소
 
@@ -123,6 +128,39 @@ class NexonClient:
     # ========================================================
 
     def _get(
+        self,
+        path: str,
+        params: dict[str, Any],
+    ) -> dict[str, Any]:
+        """
+        호출 간격을 지키면서 요청하고, 호출량 초과(OPENAPI00007)면 잠시 뒤 재시도한다.
+        """
+
+        for attempt in range(RATE_LIMIT_RETRIES):
+
+            elapsed = time.monotonic() - getattr(self, "_last_request_at", 0.0)
+
+            if elapsed < MIN_REQUEST_INTERVAL:
+                time.sleep(MIN_REQUEST_INTERVAL - elapsed)
+
+            self._last_request_at = time.monotonic()
+
+            try:
+                return self._request(path, params)
+
+            except NexonApiError as error:
+
+                if error.error_code != "OPENAPI00007":
+                    raise
+
+                if attempt == RATE_LIMIT_RETRIES - 1:
+                    raise
+
+                time.sleep(MIN_REQUEST_INTERVAL * (attempt + 2) * 2)
+
+        raise NexonApiError(ERROR_MESSAGES["OPENAPI00007"], error_code="OPENAPI00007")
+
+    def _request(
         self,
         path: str,
         params: dict[str, Any],
@@ -343,6 +381,7 @@ class NexonClient:
     def get_basic(
         self,
         ocid: str,
+        date: str | None = None,
     ) -> dict[str, Any]:
         """
         캐릭터 기본 정보 조회.
@@ -357,10 +396,10 @@ class NexonClient:
         등을 받을 수 있음.
         """
 
-        return self._get(
-            "/character/basic",
-            {"ocid": ocid},
-        )
+        params: dict[str, Any] = {"ocid": ocid}
+        if date:
+            params["date"] = date
+        return self._get("/character/basic", params)
 
     # ========================================================
     # 아래 함수들은 지금 당장 테스트하지 않아도 됨.
@@ -389,6 +428,9 @@ class NexonClient:
 
     def get_hyper_stat(self, ocid: str) -> dict[str, Any]:
         return self._get("/character/hyper-stat", {"ocid": ocid})
+
+    def get_dojang(self, ocid: str) -> dict[str, Any]:
+        return self._get("/character/dojang-record", {"ocid": ocid})
 
     def get_propensity(self, ocid: str) -> dict[str, Any]:
         return self._get("/character/propensity", {"ocid": ocid})
