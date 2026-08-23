@@ -17,19 +17,23 @@ DATA_PATH = PROJECT_ROOT / "data" / "processed" / "inven_question_final.csv"
 
 
 def asset_data_uri(path: Path) -> str:
+    if not path.is_file():
+        return ""
     encoded = base64.b64encode(path.read_bytes()).decode("ascii")
     return f"data:image/png;base64,{encoded}"
 
 
 background_uri = asset_data_uri(ASSET_DIR / "배경.png")
 icon_uri = asset_data_uri(ASSET_DIR / "메이플_아이콘.png")
+background_layer = f"background-image:url('{background_uri}');" if background_uri else ""
+brand_icon = f'<img src="{icon_uri}" alt="메이플 아이콘">' if icon_uri else ""
 
 st.markdown(
     f"""
     <style>
     :root {{ --purple:#7258e9; --purple-dark:#5941d2; --ink:#273043; --line:#e7eaf2; }}
-    [data-testid="stAppViewContainer"] {{ min-height:100vh; background:#f7f8fc; background-image:url('{background_uri}');
-        background-size:100% auto; background-position:center top; background-repeat:no-repeat; }}
+    [data-testid="stAppViewContainer"] {{ min-height:100vh; background:#f7f8fc;
+        {background_layer} background-size:100% auto; background-position:center top; background-repeat:no-repeat; }}
     [data-testid="stHeader"] {{ background:transparent; }}
     .block-container {{ max-width:none; padding:0 !important; }}
     .center-logo {{ width:100%; text-align:center; margin:0 auto; }}
@@ -90,7 +94,7 @@ st.markdown(
     f"""
     <section class="home-hero"><div class="hero-inner">
       <div class="eyebrow">MAPLESTORY SEARCH &amp; CHAT</div>
-      <div class="hero-brand"><img src="{icon_uri}" alt="메이플 아이콘">메이플 스토리</div>
+      <div class="hero-brand">{brand_icon}메이플 스토리</div>
       <div class="hero-subtitle">뉴비를 위한 가이드라인 웹사이트</div>
     </div></section>
     """,
@@ -153,7 +157,7 @@ def rank_card(title_ko: str, title_en: str, rows: list[tuple[str, int]], unit: s
     )
     return (
         '<div class="rank-card">'
-        f'<div class="rank-head"><img src="{icon_uri}" alt="메이플 아이콘">'
+        f'<div class="rank-head">{brand_icon}'
         f'<span class="rank-head-text"><b>{title_ko}</b><em>{title_en}</em></span></div>'
         f'<div class="rank-body">{row_html}</div></div>'
     )
