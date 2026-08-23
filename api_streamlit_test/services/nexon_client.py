@@ -1,41 +1,74 @@
 from typing import Any
 
-from getpass import getpass
 import requests
 
 # 1. 메이플스토리 API 공통 주소
 
 BASE_URL = "https://open.api.nexon.com/maplestory/v1"
+# 2. NEXON 공식 오류 코드 -> 사용자 안내 메시지로 변환
+
+# NEXON API에서 오류가 발생하면 Ex)
+
+# {
+#     "error": {
+#         "name": "OPENAPI00007",
+#         "message": "API call limit exceeded"
+#     }
+# }
+#
+# 같은 형태로 응답이 옵니다.
+#
+# error["name"]을 보고 사용자가 이해하기 쉬운
+# 한국어 메시지로 변환합니다.
 
 ERROR_MESSAGES = {
+
     # 서버 내부 오류
-    "OPENAPI00001": "NEXON Open API 서버 내부 오류가 발생했습니다. "
-    "잠시 후 다시 시도해 주세요.",
+    "OPENAPI00001":
+        "NEXON Open API 서버 내부 오류가 발생했습니다. "
+        "잠시 후 다시 시도해 주세요.",
+
     # 권한 없음
-    "OPENAPI00002": "해당 API를 호출할 권한이 없습니다.",
+    "OPENAPI00002":
+        "해당 API를 호출할 권한이 없습니다.",
+
     # 유효하지 않은 식별자
-    "OPENAPI00003": "유효하지 않은 캐릭터 식별자입니다.",
+    "OPENAPI00003":
+        "유효하지 않은 캐릭터 식별자입니다.",
+
     # 파라미터 누락 / 잘못된 파라미터
-    "OPENAPI00004": "API 요청 파라미터가 누락되었거나 올바르지 않습니다.",
+    "OPENAPI00004":
+        "API 요청 파라미터가 누락되었거나 올바르지 않습니다.",
+
     # API Key 오류
-    "OPENAPI00005": "유효하지 않은 API Key입니다.",
+    "OPENAPI00005":
+        "유효하지 않은 API Key입니다.",
+
     # 잘못된 API 주소
-    "OPENAPI00006": "유효하지 않은 게임 또는 API 경로입니다.",
+    "OPENAPI00006":
+        "유효하지 않은 게임 또는 API 경로입니다.",
+
     # 호출량 초과
-    "OPENAPI00007": "API 호출량을 초과했습니다. " "잠시 후 다시 시도해 주세요.",
+    "OPENAPI00007":
+        "API 호출량을 초과했습니다. "
+        "잠시 후 다시 시도해 주세요.",
+
     # 데이터 준비 중
-    "OPENAPI00009": "데이터가 준비 중입니다. " "잠시 후 다시 조회해 주세요.",
+    "OPENAPI00009":
+        "데이터가 준비 중입니다. "
+        "잠시 후 다시 조회해 주세요.",
+
     # 게임 점검
-    "OPENAPI00010": "현재 메이플스토리가 점검 중입니다.",
+    "OPENAPI00010":
+        "현재 메이플스토리가 점검 중입니다.",
+
     # API 점검
-    "OPENAPI00011": "현재 NEXON Open API가 점검 중입니다.",
+    "OPENAPI00011":
+        "현재 NEXON Open API가 점검 중입니다.",
 }
-
-
 # ============================================================
 # 3. NEXON API 전용 Exception
 # ============================================================
-
 
 class NexonApiError(Exception):
     """
@@ -82,7 +115,6 @@ class NexonApiError(Exception):
 # 4. NEXON API Client
 # ============================================================
 
-
 class NexonClient:
 
     def __init__(
@@ -106,7 +138,9 @@ class NexonClient:
         # API Key가 비어 있는 경우
         if not api_key or not api_key.strip():
 
-            raise ValueError("API Key가 비어 있습니다.")
+            raise ValueError(
+                "API Key가 비어 있습니다."
+            )
 
         self.api_key = api_key.strip()
 
@@ -118,6 +152,7 @@ class NexonClient:
         # HTTP 연결을 재사용할 수 있음
         self.session = requests.Session()
 
+
     # ========================================================
     # 5. 공통 GET 요청 함수
     # ========================================================
@@ -127,6 +162,7 @@ class NexonClient:
         path: str,
         params: dict[str, Any],
     ) -> dict[str, Any]:
+
         """
         실제 API 요청을 담당하는 공통 함수.
 
@@ -153,11 +189,17 @@ class NexonClient:
 
         url = f"{BASE_URL}{path}"
 
+
         # NEXON API Key는 HTTP Header에 전달
         headers = {
-            "x-nxopen-api-key": self.api_key,
-            "Accept": "application/json",
+
+            "x-nxopen-api-key":
+                self.api_key,
+
+            "Accept":
+                "application/json",
         }
+
 
         # ====================================================
         # 실제 HTTP 요청
@@ -172,6 +214,7 @@ class NexonClient:
                 timeout=self.timeout,
             )
 
+
         # ----------------------------------------------------
         # API 서버 응답 시간이 timeout을 넘긴 경우
         # ----------------------------------------------------
@@ -179,9 +222,13 @@ class NexonClient:
         except requests.Timeout as error:
 
             raise NexonApiError(
-                "API 응답 시간이 초과되었습니다. " "잠시 후 다시 시도해 주세요.",
+                "API 응답 시간이 초과되었습니다. "
+                "잠시 후 다시 시도해 주세요.",
+
                 original_message=str(error),
+
             ) from error
+
 
         # ----------------------------------------------------
         # 인터넷 연결 실패 / 서버 연결 실패
@@ -192,8 +239,11 @@ class NexonClient:
             raise NexonApiError(
                 "NEXON API 서버에 연결할 수 없습니다. "
                 "네트워크 상태를 확인해 주세요.",
+
                 original_message=str(error),
+
             ) from error
+
 
         # ----------------------------------------------------
         # 그 외 requests 라이브러리 관련 오류
@@ -203,8 +253,11 @@ class NexonClient:
 
             raise NexonApiError(
                 "API 요청 중 네트워크 오류가 발생했습니다.",
+
                 original_message=str(error),
+
             ) from error
+
 
         # ====================================================
         # JSON 변환
@@ -219,9 +272,13 @@ class NexonClient:
             # 서버 응답은 왔지만 JSON이 아닐 경우
             raise NexonApiError(
                 "API 응답을 JSON 형식으로 해석하지 못했습니다.",
+
                 status_code=response.status_code,
+
                 original_message=str(error),
+
             ) from error
+
 
         # ====================================================
         # 정상 응답
@@ -234,10 +291,12 @@ class NexonClient:
 
                 raise NexonApiError(
                     "API 응답 형식이 예상과 다릅니다.",
+
                     status_code=response.status_code,
                 )
 
             return data
+
 
         # ====================================================
         # API 오류 응답 처리
@@ -255,26 +314,38 @@ class NexonClient:
 
         if isinstance(data, dict):
 
-            error_data = data.get("error", {})
+            error_data = data.get(
+                "error",
+                {}
+            )
 
         else:
 
             error_data = {}
 
+
         if isinstance(error_data, dict):
 
-            error_code = error_data.get("name")
+            error_code = error_data.get(
+                "name"
+            )
 
-            original_message = error_data.get("message")
+            original_message = error_data.get(
+                "message"
+            )
 
         else:
 
             error_code = None
             original_message = None
 
+
         # 공식 오류 코드에 정의되어 있으면
         # 우리가 만든 한국어 메시지 사용
-        user_message = ERROR_MESSAGES.get(error_code)
+        user_message = ERROR_MESSAGES.get(
+            error_code
+        )
+
 
         # 정의되지 않은 오류라면
         # NEXON 원본 오류 메시지를 사용
@@ -282,17 +353,24 @@ class NexonClient:
 
             user_message = (
                 original_message
-                or f"API 요청에 실패했습니다. "
+                or
+                f"API 요청에 실패했습니다. "
                 f"HTTP 상태 코드: {response.status_code}"
             )
 
+
         # 최종적으로 NexonApiError 발생
         raise NexonApiError(
+
             user_message,
+
             status_code=response.status_code,
+
             error_code=error_code,
+
             original_message=original_message,
         )
+
 
     # ========================================================
     # 6. 캐릭터명 -> OCID 조회
@@ -302,6 +380,7 @@ class NexonClient:
         self,
         character_name: str,
     ) -> str:
+
         """
         캐릭터 닉네임으로 OCID 조회.
 
@@ -310,16 +389,28 @@ class NexonClient:
         """
 
         # 캐릭터명이 비어 있으면 API 요청하지 않음
-        if not character_name or not character_name.strip():
+        if (
+            not character_name
+            or not character_name.strip()
+        ):
 
-            raise ValueError("캐릭터명을 입력해 주세요.")
+            raise ValueError(
+                "캐릭터명을 입력해 주세요."
+            )
+
 
         # GET /maplestory/v1/id
 
         data = self._get(
+
             "/id",
-            {"character_name": character_name.strip()},
+
+            {
+                "character_name":
+                    character_name.strip()
+            },
         )
+
 
         # 정상 응답 예시
         #
@@ -327,14 +418,21 @@ class NexonClient:
         #     "ocid": "..."
         # }
 
-        ocid = data.get("ocid")
+        ocid = data.get(
+            "ocid"
+        )
+
 
         # 200 응답인데 ocid가 없는 비정상 상황
         if not ocid:
 
-            raise NexonApiError("정상 응답에서 OCID를 찾지 못했습니다.")
+            raise NexonApiError(
+                "정상 응답에서 OCID를 찾지 못했습니다."
+            )
+
 
         return ocid
+
 
     # ========================================================
     # 7. 캐릭터 기본 정보
@@ -344,6 +442,7 @@ class NexonClient:
         self,
         ocid: str,
     ) -> dict[str, Any]:
+
         """
         캐릭터 기본 정보 조회.
 
@@ -358,9 +457,14 @@ class NexonClient:
         """
 
         return self._get(
+
             "/character/basic",
-            {"ocid": ocid},
+
+            {
+                "ocid": ocid
+            },
         )
+
 
     # ========================================================
     # 아래 함수들은 지금 당장 테스트하지 않아도 됨.
@@ -369,6 +473,7 @@ class NexonClient:
     # 장비 / 스탯 / 심볼 / 유니온 탭을 만들 때
     # 그대로 사용할 수 있도록 미리 만들어 둠.
     # ========================================================
+
 
     # ========================================================
     # 8. 종합 능력치
@@ -380,21 +485,14 @@ class NexonClient:
     ) -> dict[str, Any]:
 
         return self._get(
+
             "/character/stat",
-            {"ocid": ocid},
+
+            {
+                "ocid": ocid
+            },
         )
 
-    def get_popularity(self, ocid: str) -> dict[str, Any]:
-        return self._get("/character/popularity", {"ocid": ocid})
-
-    def get_hyper_stat(self, ocid: str) -> dict[str, Any]:
-        return self._get("/character/hyper-stat", {"ocid": ocid})
-
-    def get_propensity(self, ocid: str) -> dict[str, Any]:
-        return self._get("/character/propensity", {"ocid": ocid})
-
-    def get_ability(self, ocid: str) -> dict[str, Any]:
-        return self._get("/character/ability", {"ocid": ocid})
 
     # ========================================================
     # 9. 현재 장착 장비
@@ -406,9 +504,14 @@ class NexonClient:
     ) -> dict[str, Any]:
 
         return self._get(
+
             "/character/item-equipment",
-            {"ocid": ocid},
+
+            {
+                "ocid": ocid
+            },
         )
+
 
     # ========================================================
     # 10. 심볼
@@ -420,9 +523,14 @@ class NexonClient:
     ) -> dict[str, Any]:
 
         return self._get(
+
             "/character/symbol-equipment",
-            {"ocid": ocid},
+
+            {
+                "ocid": ocid
+            },
         )
+
 
     # ========================================================
     # 11. 유니온
@@ -434,19 +542,10 @@ class NexonClient:
     ) -> dict[str, Any]:
 
         return self._get(
+
             "/user/union",
-            {"ocid": ocid},
-        )
 
-    def get_guild_id(self, guild_name: str, world_name: str) -> str:
-        data = self._get(
-            "/guild/id",
-            {"guild_name": guild_name.strip(), "world_name": world_name.strip()},
+            {
+                "ocid": ocid
+            },
         )
-        oguild_id = data.get("oguild_id")
-        if not oguild_id:
-            raise NexonApiError("길드 식별자를 찾지 못했습니다.")
-        return oguild_id
-
-    def get_guild_basic(self, oguild_id: str) -> dict[str, Any]:
-        return self._get("/guild/basic", {"oguild_id": oguild_id})
