@@ -1,23 +1,6 @@
 import os
 os.environ.setdefault("ARROW_DEFAULT_MEMORY_POOL", "system")
 
-<<<<<<< Updated upstream
-import sys
-from pathlib import Path
-
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
-import streamlit as st
-
-# app.py와 nexon_client.py가 같은 폴더에 있음
-STREAMLIT_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(STREAMLIT_DIR))
-
-from nexon_client import NexonApiError, NexonClient
-
-st.set_page_config(page_title="메이플스토리 스타터 유저 가이드라인", page_icon="🍁", layout="wide")
-=======
 import base64
 from pathlib import Path
 
@@ -52,7 +35,6 @@ def font_face_css(path: str) -> str:
 st.set_page_config(page_title="MapleStory Search & Chat", page_icon="🍄", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown(font_face_css(str(FONT_PATH)), unsafe_allow_html=True)
->>>>>>> Stashed changes
 
 with st.sidebar:
     st.session_state.sidebar_slot = st.empty()
