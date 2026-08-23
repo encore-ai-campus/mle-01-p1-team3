@@ -6,7 +6,9 @@ from pathlib import Path
 
 import streamlit as st
 
-FONT_PATH = Path(__file__).resolve().parent / "assets" / "MaplestoryLight.ttf"
+ASSET_DIR = Path(__file__).resolve().parent / "assets"
+FONT_PATH = ASSET_DIR / "MaplestoryLight.ttf"
+BACKGROUND_PATH = ASSET_DIR / "배경.png"
 
 
 @st.cache_data(show_spinner=False)
@@ -32,9 +34,32 @@ def font_face_css(path: str) -> str:
     </style>
     """
 
+@st.cache_data(show_spinner=False)
+def background_css(path: str) -> str:
+    """모든 페이지 공통 배경 이미지."""
+    image = Path(path)
+    if not image.is_file():
+        return ""
+    encoded = base64.b64encode(image.read_bytes()).decode("ascii")
+    return f"""
+    <style>
+    [data-testid="stAppViewContainer"] {{
+        min-height: 100vh;
+        background-image: url(data:image/png;base64,{encoded});
+        background-size: 100% auto;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }}
+    [data-testid="stHeader"] {{ background: transparent; }}
+    </style>
+    """
+
+
 st.set_page_config(page_title="MapleStory Search & Chat", page_icon="🍄", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown(font_face_css(str(FONT_PATH)), unsafe_allow_html=True)
+st.markdown(background_css(str(BACKGROUND_PATH)), unsafe_allow_html=True)
 
 with st.sidebar:
     st.markdown("# 🍁 메이플스토리 뉴비 가이드라인")

@@ -22,18 +22,13 @@ def asset_data_uri(path: Path) -> str:
     return f"data:image/png;base64,{encoded}"
 
 
-background_uri = asset_data_uri(ASSET_DIR / "배경.png")
 icon_uri = asset_data_uri(ASSET_DIR / "메이플_아이콘.png")
-background_layer = f"background-image:url('{background_uri}');" if background_uri else ""
 brand_icon = f'<img src="{icon_uri}" alt="메이플 아이콘">' if icon_uri else ""
 
 st.markdown(
     f"""
     <style>
     :root {{ --purple:#7258e9; --purple-dark:#5941d2; --ink:#273043; --line:#e7eaf2; }}
-    [data-testid="stAppViewContainer"] {{ min-height:100vh; background:#f7f8fc;
-        {background_layer} background-size:100% auto; background-position:center top; background-repeat:no-repeat; }}
-    [data-testid="stHeader"] {{ background:transparent; }}
     .block-container {{ max-width:none; padding:0 !important; }}
     .center-logo {{ width:100%; text-align:center; margin:0 auto; }}
     .center-logo img {{ width:185px; height:185px; object-fit:contain; }}

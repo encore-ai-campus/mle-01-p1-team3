@@ -48,7 +48,6 @@ def get_api_key() -> str | None:
 st.markdown(
     """
     <style>
-    .stApp { background: #0d1420; }
     .block-container { max-width: 1500px; padding-top: 1.5rem; }
     .dashboard-title { color: #f5f7fa; font-size: 1.8rem; font-weight: 800; margin-bottom: .6rem; }
 
@@ -490,6 +489,10 @@ def load_character(client: NexonClient, character_name: str) -> dict[str, Any]:
 
 def render_dashboard() -> None:
     st.markdown("<div class='dashboard-title'>🍁 메이플스토리 캐릭터 정보</div>", unsafe_allow_html=True)
+    # 홈 화면에서 넘어온 캐릭터명이 있으면 입력창에 채우고 바로 조회한다.
+    pending_name = st.session_state.pop("pending_character_name", None)
+    if pending_name:
+        st.session_state["character_query"] = pending_name
     with st.container(border=True):
         st.markdown("**캐릭터명을 입력하세요**")
         query_col, button_col = st.columns([6, 1])
