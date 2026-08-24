@@ -1,0 +1,10 @@
+{
+  "input_files": [
+    "C:\\Users\\Playdata\\Desktop\\team3_ 프로젝트1\\mle-01-p1-team3\\ㅋㅌㅊ\\maple_inven_rag_원본(1~10p).csv"
+  ],
+  "model_name": "jhgan/ko-sroberta-multitask",
+  "chunk_tokens": 100,
+  "overlap_tokens": 20,
+  "max_tokens": 128,
+  "batch_size": 32
+}

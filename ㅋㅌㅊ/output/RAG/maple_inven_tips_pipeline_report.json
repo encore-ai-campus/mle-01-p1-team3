@@ -23,5 +23,8 @@
     "퀘스트": 21,
     "테섭": 18
   },
-  "short_text_rows": 19
+  "short_text_rows": 19,
+  "min_input_tokens": 21,
+  "max_input_tokens": 128,
+  "validation_passed": true
 }
