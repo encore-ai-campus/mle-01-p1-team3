@@ -1,6 +1,6 @@
 # 🍄 메이플스토리 신규 · 복귀 유저를 위한 RAG 기반 가이드라인 챗봇
 
-**웹페이지 url** : [메이플 뉴비/복귀 유저들을 위한 가이드라인 챗봇](https://mapleinfoguide.streamlit.app/)
+**웹페이지 url** : [메이플 뉴비/복귀 유저들을 위한 가이드라인 챗봇](https://mle-01-p1-team3git-xcvdhvsndcdswzcfm9y5fg.streamlit.app/)
 
 > 인벤 질문 게시판 **4,157건**을 분석해 뉴비가 실제로 막히는 지점을 찾고,
 > 공식 가이드 · 직업 · 확률형 아이템 문서 **3,694 청크**를 벡터 DB로 구축해
