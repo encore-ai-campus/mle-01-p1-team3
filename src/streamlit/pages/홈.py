@@ -25,6 +25,9 @@ def asset_data_uri(path: Path) -> str:
 icon_uri = asset_data_uri(ASSET_DIR / "메이플_아이콘.png")
 brand_icon = f'<img src="{icon_uri}" alt="메이플 아이콘">' if icon_uri else ""
 
+q_uri = asset_data_uri(ASSET_DIR / "top질문_아이콘.png")
+ques_icon = f'<img src="{q_uri}" alt="top질문 아이콘">' if q_uri else ""
+
 st.markdown(
     f"""
     <style>
@@ -158,7 +161,7 @@ def rank_card(title_ko: str, title_en: str, rows: list[tuple[str, int]], unit: s
     )
     return (
         '<div class="rank-card">'
-        f'<div class="rank-head">{brand_icon}'
+        f'<div class="rank-head">{ques_icon}'
         f'<span class="rank-head-text"><b>{title_ko}</b><em>{title_en}</em></span></div>'
         f'<div class="rank-body">{row_html}</div></div>'
     )
