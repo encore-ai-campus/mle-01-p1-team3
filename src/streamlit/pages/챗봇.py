@@ -71,6 +71,10 @@ st.markdown(
     .src-chip { display: inline-block; background: rgba(41,50,74,.07); border: 1px solid rgba(41,50,74,.16);
         border-radius: 999px; padding: 3px 11px; margin: 3px 5px 0 0; font-size: 12px; max-width: 100%;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
+
+    /* ===== 흰색 글씨 가독성용 그림자 ===== */
+    .chat-hero p,
+    .chat-hint { text-shadow: 0 1px 3px rgba(0, 0, 0, .45); }
     </style>
     """,
     unsafe_allow_html=True,
