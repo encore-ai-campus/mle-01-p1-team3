@@ -45,8 +45,10 @@ def background_css(path: str) -> str:
     <style>
     [data-testid="stAppViewContainer"] {{
         min-height: 100vh;
-        background-image: url(data:image/png;base64,{encoded});
-        background-size: 100% auto;
+        background-image:
+            linear-gradient(rgba(255, 255, 255, .6), rgba(255, 255, 255, .6)),
+            url(data:image/png;base64,{encoded});
+        background-size: 100% 100%, 100% auto;
         background-position: center top;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -56,10 +58,42 @@ def background_css(path: str) -> str:
     """
 
 
+
+# 챗봇 히어로와 동일한 반투명 다크 패널. 컨테이너 안에 .glass-anchor 를 넣으면 적용된다.
+GLASS_ANCHOR = '<span class="glass-anchor"></span>'
+GLASS_SCOPE = 'div[data-testid="stVerticalBlock"]:has(> [data-testid="stElementContainer"] .glass-anchor)'
+PANEL_CSS = f"""
+<style>
+{GLASS_SCOPE} {{
+    background: rgba(23, 30, 52, .62);
+    backdrop-filter: blur(7px);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 14px 34px rgba(15, 20, 40, .28);
+}}
+{GLASS_SCOPE} h1,
+{GLASS_SCOPE} h2,
+{GLASS_SCOPE} h3,
+{GLASS_SCOPE} [data-testid="stMetricLabel"],
+{GLASS_SCOPE} [data-testid="stMetricLabel"] p,
+{GLASS_SCOPE} [data-testid="stMetricValue"],
+{GLASS_SCOPE} [data-testid="stMarkdownContainer"] p {{
+    color: #f2f4fa !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .45);
+}}
+/* 앵커 자체는 자리를 차지하지 않게 숨긴다. */
+[data-testid="stElementContainer"]:has(.glass-anchor) {{ display: none; }}
+</style>
+"""
+
+
 st.set_page_config(page_title="MapleStory Search & Chat", page_icon="🍄", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown(font_face_css(str(FONT_PATH)), unsafe_allow_html=True)
 st.markdown(background_css(str(BACKGROUND_PATH)), unsafe_allow_html=True)
+st.markdown(PANEL_CSS, unsafe_allow_html=True)
 
 with st.sidebar:
     st.markdown("# 🍁 메이플스토리 뉴비 가이드라인")

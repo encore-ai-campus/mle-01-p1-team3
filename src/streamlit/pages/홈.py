@@ -25,6 +25,9 @@ def asset_data_uri(path: Path) -> str:
 icon_uri = asset_data_uri(ASSET_DIR / "메이플_아이콘.png")
 brand_icon = f'<img src="{icon_uri}" alt="메이플 아이콘">' if icon_uri else ""
 
+q_uri = asset_data_uri(ASSET_DIR / "top질문_아이콘.png")
+ques_icon = f'<img src="{q_uri}" alt="top질문 아이콘">' if q_uri else ""
+
 st.markdown(
     f"""
     <style>
@@ -34,11 +37,11 @@ st.markdown(
     .center-logo img {{ width:185px; height:185px; object-fit:contain; }}
     .home-hero {{ min-height:92px; padding:66px 7vw 0; text-align:center; color:white; position:relative; }}
     .hero-inner {{ position:relative; z-index:1; max-width:900px; margin:0 auto; }}
-    .eyebrow {{ font-size:15px; letter-spacing:.34em; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.16); }}
+    .eyebrow {{ font-size:15px; letter-spacing:.34em; font-weight:700; text-shadow:0 1px 2px rgba(0,0,0,.6), 0 2px 10px rgba(0,0,0,.5); }}
     .hero-brand {{ display:inline-flex; align-items:center; justify-content:center; gap:14px; margin:16px 0 8px;
-        font-size:46px; font-weight:800; line-height:1; text-shadow:0 3px 12px rgba(0,0,0,.28); }}
+        font-size:46px; font-weight:800; line-height:1; text-shadow:0 2px 4px rgba(0,0,0,.6), 0 4px 18px rgba(0,0,0,.5); }}
     .hero-brand img {{ width:1.9em; height:1.9em; object-fit:contain; }}
-    .hero-subtitle {{ margin:0 0 26px; font-size:20px; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.24); }}
+    .hero-subtitle {{ margin:0 0 26px; font-size:20px; font-weight:700; text-shadow:0 1px 3px rgba(0,0,0,.6), 0 3px 14px rgba(0,0,0,.5); }}
     .hero-hint {{ color:rgba(39,48,67,.84); font-size:15px; font-weight:600; margin-top:13px; }}
     .home-logo {{ margin:15px auto 0; width:185px; height:145px; object-fit:contain; }}
     div[data-testid="stTextInput"] {{ max-width:760px; margin:0 auto; }}
@@ -77,8 +80,15 @@ st.markdown(
     .notice-date {{ min-width:82px; color:#7e8798; font-size:13px; }}
     .notice-title {{ min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }}
     .home-footer {{ text-align:center; color:#a4aab7; font-size:13px; padding:0 0 25px; }}
-    @media (max-width:800px) {{ [data-testid="stAppViewContainer"] {{ background-size:100% auto; }} .home-hero {{ min-height:92px; padding:45px 20px 0; }} .eyebrow {{ font-size:12px; letter-spacing:.2em; }}
+    @media (max-width:800px) {{ [data-testid="stAppViewContainer"] {{ background-size:100% 100%, 100% auto; }} .home-hero {{ min-height:92px; padding:45px 20px 0; }} .eyebrow {{ font-size:12px; letter-spacing:.2em; }}
         .hero-subtitle {{ font-size:16px; }} .hero-brand {{ font-size:34px; }} .cards-wrap {{ max-width:92%; margin-top:28px; }} .home-card {{ margin-bottom:18px; }} .search-button {{ margin-left:-72px; }} }}
+
+    /* ===== 흰색 글씨 가독성용 그림자 ===== */
+    div[data-testid="stForm"] div[data-testid="stMarkdownContainer"] p,
+    div[data-testid="stForm"] button p,
+    .search-button button,
+    .hero-actions button[kind="primary"],
+    .dday {{ text-shadow: 0 1px 3px rgba(0, 0, 0, .45); }}
     </style>
     """,
     unsafe_allow_html=True,
@@ -151,7 +161,7 @@ def rank_card(title_ko: str, title_en: str, rows: list[tuple[str, int]], unit: s
     )
     return (
         '<div class="rank-card">'
-        f'<div class="rank-head">{brand_icon}'
+        f'<div class="rank-head">{ques_icon}'
         f'<span class="rank-head-text"><b>{title_ko}</b><em>{title_en}</em></span></div>'
         f'<div class="rank-body">{row_html}</div></div>'
     )
@@ -179,6 +189,13 @@ st.markdown(
     .rank-title { flex:1; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
     .rank-value { flex:none; color:rgba(255,255,255,.66); font-size:13px; font-weight:700; }
     @media (max-width:900px) { .rank-wrap { flex-direction:column; width:94%; } }
+
+    /* ===== 흰색 글씨 가독성용 그림자 ===== */
+    .rank-head-text em,
+    .rank-more,
+    .rank-row,
+    .rank-no,
+    .rank-value { text-shadow: 0 1px 3px rgba(0, 0, 0, .45); }
     </style>
     """,
     unsafe_allow_html=True,
