@@ -1,0 +1,69 @@
+{
+  "created_at": "2026-08-24T05:32:01.665350+00:00",
+  "persist_directory": "C:\\Users\\Playdata\\Desktop\\team3_ 프로젝트1\\mle-01-p1-team3\\chroma_db",
+  "legacy_collection": "maplestory_guides",
+  "legacy_collection_preserved": true,
+  "collection_name": "maplestory_knowledge",
+  "collection_count": 9200,
+  "distance_metric": "cosine",
+  "stale_ids_deleted": 0,
+  "source_counts": {
+    "guide": 1441,
+    "inven_tip": 5506,
+    "items": 2205,
+    "jobs": 48
+  },
+  "required_metadata": [
+    "source",
+    "name",
+    "section_title",
+    "article_id",
+    "board_id",
+    "url",
+    "chunk_index",
+    "total_chunks"
+  ],
+  "metadata_validation_passed": true,
+  "embedding_model": "jhgan/ko-sroberta-multitask",
+  "embedding_dimension": 768,
+  "official_vector_source": "기존 maplestory_guides 벡터 재사용",
+  "inven_vector_source": "C:\\Users\\Playdata\\Desktop\\team3_ 프로젝트1\\mle-01-p1-team3\\ㅋㅌㅊ\\output\\RAG\\maple_inven_tips_embeddings.npy",
+  "smoke_query": "스타포스 파괴 후 확정 복구는 어떻게 사용하나요?",
+  "smoke_top5": [
+    {
+      "source": "inven_tip",
+      "article_id": "47118",
+      "name": "[1.2.413] 전 레벨구간 스타포스 확정복구 사용 가이드 (샤타반영)",
+      "url": "https://www.inven.co.kr/board/maple/2304/47118",
+      "similarity": 0.6384
+    },
+    {
+      "source": "inven_tip",
+      "article_id": "43522",
+      "name": "[스타포스] 신 강화 목표별 파괴확률 정리",
+      "url": "https://www.inven.co.kr/board/maple/2304/43522",
+      "similarity": 0.5803
+    },
+    {
+      "source": "inven_tip",
+      "article_id": "43466",
+      "name": "썬데이 / 패치후 메할일&변경사항요약+@ : NEXT 마지막 업데이트",
+      "url": "https://www.inven.co.kr/board/maple/2304/43466",
+      "similarity": 0.5545
+    },
+    {
+      "source": "guide",
+      "article_id": "412",
+      "name": "[장비] 스타포스 강화",
+      "url": "https://maplestory.nexon.com/Guide/N23GameInformation/Articles/412",
+      "similarity": 0.5509
+    },
+    {
+      "source": "inven_tip",
+      "article_id": "43410",
+      "name": "[3/20 적용]개편&바뀌는 것들 요약 + 캐시 / 신규 이벤트",
+      "url": "https://www.inven.co.kr/board/maple/2304/43410",
+      "similarity": 0.5231
+    }
+  ]
+}
