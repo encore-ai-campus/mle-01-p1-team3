@@ -29,4 +29,3 @@ class FakeEmbeddingModel:
         for index, text in enumerate(texts, start=1):
             rows.append([float(index), float(len(text.split())), 1.0, 2.0])
         return np.asarray(rows, dtype=np.float32)
-
