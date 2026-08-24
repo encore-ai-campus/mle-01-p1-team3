@@ -1,0 +1,27 @@
+{
+  "input_rows": 300,
+  "accepted_rows": 299,
+  "rejected_rows": 1,
+  "duplicate_rows": 0,
+  "input_files": [
+    "C:\\Users\\Playdata\\Desktop\\team3_ 프로젝트1\\mle-01-p1-team3\\ㅋㅌㅊ\\maple_inven_rag_원본(1~10p).csv"
+  ],
+  "chunk_count": 5506,
+  "embedding_count": 5506,
+  "embedding_dimension": 768,
+  "categories": {
+    "기타": 154,
+    "리부트": 1,
+    "메이플M": 5,
+    "몬스터": 29,
+    "사냥": 27,
+    "수다": 2,
+    "실험": 9,
+    "아이템": 24,
+    "전문기술": 7,
+    "지역": 2,
+    "퀘스트": 21,
+    "테섭": 18
+  },
+  "short_text_rows": 19
+}
