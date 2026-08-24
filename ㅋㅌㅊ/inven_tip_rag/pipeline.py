@@ -197,4 +197,3 @@ def run_all(
     }
     atomic_write_json(outputs.report, report)
     return report
-
