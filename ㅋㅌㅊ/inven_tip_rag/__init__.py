@@ -6,4 +6,3 @@ DEFAULT_CHUNK_TOKENS = 100
 DEFAULT_CHUNK_OVERLAP = 20
 
 __version__ = "0.1.0"
-
