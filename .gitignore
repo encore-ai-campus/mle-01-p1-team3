@@ -6,6 +6,9 @@ mle-01-p1-team3/data/raw/
 .streamlit/secrets.toml
 src/streamlit/.streamlit/secrets.toml
 
+# ChromaDB
+chroma_db/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -224,3 +227,4 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+chroma_db/
