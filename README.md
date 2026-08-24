@@ -271,7 +271,7 @@ context가 부족하면 부족한 이유를 정확히 말하라"로 출력 전�
 k=3 평가셋에서 Hit 0.832, MRR 0.751로 검색 결과가 정답을 포함하고 상위권에 배치되는 성능은 양호하다.
 Precision은 0.582로 보통 수준이며, Recall은 0.218로 낮아 관련 문서를 충분히 검색하지 못하는 한계가 있다.
 
-<br>
+
 
 ## ✨ 기능 소개
 
@@ -399,18 +399,14 @@ mle-01-p1-team3/
 │   ├── rag_chain_retriever.ipynb     # retriever 기반 체인 (챗봇 페이지 원본)
 │   ├── rag_chain_dev.ipynb           # 체인 실험
 │   ├── rag_sql_analysis.ipynb        # ChromaDB Text-to-SQL 진단 에이전트
-│   └── RAG_chain_점검.md              # 검색 품질 진단 기록
+│   ├── visualization.ipynb           # 조회수 · 키워드 · 그룹 비교 시각화
 │
 ├── docs/
-│   └── chromadb-schema-and-system-prompt.md   # SQLite 스키마 + system prompt
+│   ├── chromadb-schema-and-system-prompt.md   # SQLite 스키마 + system prompt
+│   ├── RAG_chain_점검.md                       # 검색 품질 진단 기록
+│   ├── figures/                               # 결과 그래프
+│   ├── outputs/                               # 분석 결과 CSV / PKL (대시보드)
 │
-├── 인벤데이터 시각화/
-│   ├── visualization.ipynb           # 조회수 · 키워드 · 그룹 비교 시각화
-│   ├── figures/                      # 결과 그래프
-│   └── outputs/                      # 분석 결과 CSV / PKL (대시보드 데이터 소스)
-│
-├── .devcontainer/devcontainer.json   # Codespaces 실행 설정 (포트 8501)
-├── images/                           # 분석 결과 이미지
 └── pyproject.toml
 ```
 
