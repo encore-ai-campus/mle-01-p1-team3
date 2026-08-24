@@ -1,0 +1,157 @@
+{
+  "created_at": "2026-08-24T03:45:13.576189+00:00",
+  "persist_directory": "C:\\Users\\Playdata\\Desktop\\team3_ 프로젝트1\\mle-01-p1-team3\\ㅋㅌㅊ\\output\\chroma_db",
+  "collection_name": "maplestory_inven_tips",
+  "collection_count": 5506,
+  "candidate_k": 20,
+  "top_k": 5,
+  "document_deduplication": true,
+  "adaptive_candidate_expansion": true,
+  "context_radius": 1,
+  "evaluation_case_count": 8,
+  "hit_at_5": 1.0,
+  "recall_at_5": 1.0,
+  "mrr": 0.9375,
+  "failure_count": 0,
+  "partial_recall_count": 0,
+  "low_confidence_count": 0,
+  "evaluation": [
+    {
+      "query": "쿨뚝과 메르세데스 유니온 효과로 쿨타임이 얼마나 감소하나요?",
+      "expected": "48082",
+      "hit_rank": 1,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.316,
+      "low_confidence": false,
+      "candidate_pool_size": 40,
+      "top5_article_ids": [
+        "48082",
+        "43854",
+        "43410",
+        "45693",
+        "42665"
+      ]
+    },
+    {
+      "query": "메이플M 렌을 무과금으로 250까지 키우는 방법",
+      "expected": "48066, 46482",
+      "hit_rank": 2,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.4032,
+      "low_confidence": false,
+      "candidate_pool_size": 40,
+      "top5_article_ids": [
+        "42050",
+        "46482",
+        "48066",
+        "41923",
+        "42181"
+      ]
+    },
+    {
+      "query": "울티마 스쿼드 장비와 잠재 옵션 정보",
+      "expected": "48012, 47984",
+      "hit_rank": 1,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.2068,
+      "low_confidence": false,
+      "candidate_pool_size": 80,
+      "top5_article_ids": [
+        "48012",
+        "47971",
+        "47984",
+        "46759",
+        "39782"
+      ]
+    },
+    {
+      "query": "세르니움에서 야누스 30레벨 제자리 사냥터 추천",
+      "expected": "47636",
+      "hit_rank": 1,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.2401,
+      "low_confidence": false,
+      "candidate_pool_size": 20,
+      "top5_article_ids": [
+        "47636",
+        "47635",
+        "46468",
+        "39985",
+        "47515"
+      ]
+    },
+    {
+      "query": "스타포스 파괴 후 확정 복구를 어떻게 사용하나요?",
+      "expected": "47118",
+      "hit_rank": 1,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.3675,
+      "low_confidence": false,
+      "candidate_pool_size": 20,
+      "top5_article_ids": [
+        "47118",
+        "43522",
+        "43466",
+        "43410",
+        "43440"
+      ]
+    },
+    {
+      "query": "유니온 1만 이상 자동배치 미세 팁",
+      "expected": "47020",
+      "hit_rank": 1,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.377,
+      "low_confidence": false,
+      "candidate_pool_size": 20,
+      "top5_article_ids": [
+        "47020",
+        "42352",
+        "40240",
+        "42598",
+        "44883"
+      ]
+    },
+    {
+      "query": "루시드 보스 스킬 딜 사이클 설명",
+      "expected": "47189",
+      "hit_rank": 1,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.2917,
+      "low_confidence": false,
+      "candidate_pool_size": 20,
+      "top5_article_ids": [
+        "47189",
+        "47490",
+        "43569",
+        "47805",
+        "43262"
+      ]
+    },
+    {
+      "query": "렌 보스전 극딜에서 평딜로 넘어가는 방법",
+      "expected": "44718, 44685",
+      "hit_rank": 1,
+      "hit@5": true,
+      "recall@5": 1.0,
+      "best_distance": 0.2053,
+      "low_confidence": false,
+      "candidate_pool_size": 20,
+      "top5_article_ids": [
+        "44718",
+        "44685",
+        "47899",
+        "42970",
+        "47515"
+      ]
+    }
+  ],
+  "failure_details": []
+}
