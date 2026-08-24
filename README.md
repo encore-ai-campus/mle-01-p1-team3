@@ -262,6 +262,17 @@ context가 부족하면 부족한 이유를 정확히 말하라"로 출력 전�
 
 <br>
 
+### 검색 평가
+
+1. **검색 품질**
+![k = 3 평가 결과](./images/k=3%20평가셋%20평균.png)
+
+2. **품질 평가**
+k=3 평가셋에서 Hit 0.832, MRR 0.751로 검색 결과가 정답을 포함하고 상위권에 배치되는 성능은 양호하다.
+Precision은 0.582로 보통 수준이며, Recall은 0.218로 낮아 관련 문서를 충분히 검색하지 못하는 한계가 있다.
+
+<br>
+
 ## ✨ 기능 소개
 
 Streamlit 멀티페이지 애플리케이션으로 구성되어 있습니다. 진입점은 [`src/streamlit/app.py`](src/streamlit/app.py) 이며,
@@ -462,9 +473,9 @@ uv run streamlit run src/streamlit/app.py
 
 | 팀원 | GitHub | 담당 |
 | --- | --- | --- |
-| 김수민 | [@als00als](https://github.com/als00als) | 공식 가이드 · 직업 · 확률형 아이템 크롤링, 데이터 전처리 · 청킹, 임베딩, RAG 체인, Streamlit 전 페이지 구현 |
-| seventy4 | [@seventy4-git](https://github.com/seventy4-git) | Playwright 기반 인벤 게시판 크롤러, YouTube Data API 수집, 도메인 사전, ChromaDB 스키마 문서화 · Text-to-SQL 진단 |
-| 이승재 | — | 인벤 질문 데이터 시각화, 키워드 그룹 비교 분석, Top-K Retriever 구현 · DB 연결 |
+| 김수민 | [@als00als](https://github.com/als00als) | 질문 게시판 · 공식 가이드 · 직업 · 확률형 아이템 크롤링, 데이터 전처리 · 청킹, 임베딩, 도메인 사전, Streamlit 전 페이지 구현 |
+| seventy4 | [@seventy4-git](https://github.com/seventy4-git) | 키워드 그룹 비교 분석, RAG 체인, ChromaDB 스키마 문서화 · Text-to-SQL 진단, 평가셋 구축 |
+| 이승재 | — | 인벤 질문 데이터 시각화, Top-K Retriever 구현 · DB 연결, 팁 게시판 청킹 · 검색 개선 |
 
 ### 회고
 
